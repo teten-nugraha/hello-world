@@ -1,33 +1,22 @@
 package main
 
 import (
-	"encoding/json"
-	"log"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
-type HealthResponse struct {
-	Status string `json:"status"`
-}
-
-func healthHandler(w http.ResponseWriter, r *http.Request) {
-	response := HealthResponse{
-		Status: "ok",
-	}
-
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(response)
-}
-
 func main() {
-	http.HandleFunc("/health", healthHandler)
+	// optional: release mode (lebih ringan)
+	gin.SetMode(gin.ReleaseMode)
 
-	port := ":1111"
-	log.Println("Server running on http://localhost" + port)
+	router := gin.Default()
 
-	err := http.ListenAndServe(port, nil)
-	if err != nil {
-		log.Fatalf("Failed to start server: %v", err)
-	}
+	router.GET("/health", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{
+			"status": "ok",
+		})
+	})
+
+	router.Run(":1111")
 }
