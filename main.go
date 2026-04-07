@@ -18,5 +18,11 @@ func main() {
 		})
 	})
 
+	router.GET("/coba", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{
+			"msg": "Cocoba hitup mah kieu wae wa",
+		})
+	})
+
 	router.Run(":1111")
 }
