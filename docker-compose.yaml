@@ -1,0 +1,9 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: hello-world
+    ports:
+      - "1111:1111"
+    restart: unless-stopped
